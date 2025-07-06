@@ -1,20 +1,26 @@
-const User = require('../models/User');
-const jwt = require('jsonwebtoken');
+import User from '../models/User.js';
+import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = 'your_jwt_secret'; // Use env variable in production
+const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret'; // Use env variable in production
 
-exports.register = async (req, res, next) => {
+const register = async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const user = new User({ username, password });
     await user.save();
     res.status(201).json({ message: 'User registered' });
   } catch (err) {
+    // Handle duplicate username error specifically
+    if (err.code === 11000 && err.keyPattern && err.keyPattern.username) {
+      return res.status(400).json({ 
+        message: 'Username already taken. Please choose a different username.' 
+      });
+    }
     next(err);
   }
 };
 
-exports.login = async (req, res, next) => {
+const login = async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
@@ -26,4 +32,6 @@ exports.login = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}; 
+};
+
+export { register, login }; 

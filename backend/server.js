@@ -1,10 +1,13 @@
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
-const characterRoutes = require('./routes/characterRoutes');
-const authRoutes = require('./routes/authRoutes');
-const errorHandler = require('./middlewares/errorHandler');
-require('dotenv').config();
+import express from 'express';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import characterRoutes from './routes/characterRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import userCharacterRoutes from './routes/userCharacterRoutes.js';
+import wishlistRoutes from './routes/wishlistRoutes.js';
+import errorHandler from './middlewares/errorHandler.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -16,6 +19,8 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/characters', characterRoutes);
+app.use('/api/user-characters', userCharacterRoutes);
+app.use('/api/wishlist', wishlistRoutes);
 
 // Error handler
 app.use(errorHandler);

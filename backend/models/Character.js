@@ -1,15 +1,15 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const CharacterSchema = new mongoose.Schema({
   id: { type: Number, required: true, unique: true },
   name: { type: String, required: true },
-  fullName: String,
-  element: String,
-  path: String,
-  rarity: Number,
-  spNeed: Number,
-  release: Boolean,
-  description: String,
+  fullName: { type: String },
+  element: { type: String, required: true },
+  path: { type: String, required: true },
+  rarity: { type: Number, required: true },
+  spNeed: { type: Number },
+  release: { type: Boolean },
+  description: { type: String },
   speed: Number,
   taunt: Number,
   basehp: Number,
@@ -35,7 +35,5 @@ const CharacterSchema = new mongoose.Schema({
 
 CharacterSchema.index({ id: 1 }, { unique: true });
 
-
-
-
-module.exports = mongoose.model('Character', CharacterSchema); 
+const Character = mongoose.model('Character', CharacterSchema);
+export default Character; 

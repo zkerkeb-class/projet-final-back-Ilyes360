@@ -1,4 +1,4 @@
-const Character = require('../models/Character.js');
+import Character from '../models/Character.js';
 
 // Create a new character
 const createCharacter = async (req, res, next) => {
@@ -168,7 +168,7 @@ const getCharactersByRarityPathElement = async (req, res, next) => {
   }
 };
 
-module.exports = {
+export {
   createCharacter,
   getCharacters,
   getCharacterById,
